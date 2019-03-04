@@ -5,12 +5,19 @@ function userBreed() {
   return breed;
 }
 
+function handleErrors(responseJson) {
+  if (responseJson.status == 'error') {
+    throw responseJson;
+  }
+  return responseJson;
+}
+
 function getDogImage() {
   fetch(`https://dog.ceo/api/breed/${userBreed()}/images/random`)
     .then(response => response.json())
     .then(responseJson => {
+      handleErrors(responseJson);
       displayResults(responseJson);
-      throw responseJson;
     })
     .catch(error => {
       alert(error.message);
